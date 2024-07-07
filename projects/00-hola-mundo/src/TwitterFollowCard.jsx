@@ -1,21 +1,29 @@
-import './App.css'
+import { useState } from "react"
 
-export function TwitterFollowCard({formattedUserName, userName, name, isFollowing}) {
+export function TwitterFollowCard({children, userName = 'unknown'}) {
+    const [isFollowing, setIsFollowing] = useState(false)
     const imageSrc = `https://unavatar.io/${userName}`
+
+    const text = isFollowing ? 'Siguiendo' : 'Seguir'
+    const buttonClassname = isFollowing ? 'tw-followCard-button is-following' : 'tw-followCard-button'
     
+    const handleClick = () => {
+      setIsFollowing(!isFollowing)
+    }
+
     return (
         <article className='tw-followCard'>
             <header className='tw-followCard-header'>
                 <img className='tw-followCard-avatar' src={imageSrc} alt="El avatar de asd" />
                 <div className='tw-followCard-info'>
-                    <strong>{name}</strong>
-                    <span className='tw-followCard-infoUserName'>{formattedUserName}</span>
+                    {children}
+                    <span className='tw-followCard-infoUserName'>@{userName}</span>
                 </div>
             </header>
 
             <aside>
-                <button className='tw-followCard-button'>
-                    Seguir
+                <button className={buttonClassname} onClick={handleClick}>
+                    {text}
                 </button>
             </aside>
         </article>
